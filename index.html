@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>hbd ♡</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 1 – WELCOME / PASSCODE
+════════════════════════════════════════════════════ -->
+<section class="page active" id="page1">
+<div class="shell">
+<div class="p1-grid">
+
+  <!-- Polaroid -->
+  <div>
+    <div class="polaroid polaroid-cat">
+      <div class="polaroid-slot" id="polaroidSlot">
+        <img src="assets/frontcat.jpg" alt="cute cat" class="polaroid-img cat-animate"/>
+      </div>
+      <p class="polaroid-cap"></p>
+    </div>
+  </div>
+
+  <!-- Intro + passcode -->
+  <div>
+    <h1 class="intro-head bubble">
+      <span class="sparkle">ִᕼᗩᑭᑭY</span><span class="sparkle">ִᗷIᖇTᕼᗞᗩY</span>
+    </h1>
+    <p class="intro-sub">
+      A tiny pixel site — just <br>
+      for wania
+    </p>
+
+    <div class="card pass-box">
+      <p class="pass-hint">Hint: enter your birth date (DDMMYYYY)</p>
+      <div class="pass-row">
+        <input class="pass-input" id="codeInput" type="password"
+               maxlength="8" placeholder="00000000" autocomplete="off"
+               aria-label="secret code"/>
+        <button class="btn" onclick="checkCode()">Enter</button>
+      </div>
+      <p class="pass-err" id="codeErr">❌ nope, try again!</p>
+    </div>
+  </div>
+
+</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 2 – MACBOOK FLIP
+════════════════════════════════════════════════════ -->
+<section class="page" id="page2">
+<div class="shell mac-page">
+
+  <h2 class="page-title bubble flip-head">Flip the MacBook :)</h2>
+  <p class="flip-sub">click it!</p>
+
+  <div class="mac-stage" onclick="flipMac()" role="button" aria-label="Flip MacBook">
+    <div class="mac-flipper" id="macFlipper">
+
+      <!-- Face A – premium aluminium back -->
+      <div class="mac-face mac-closed">
+        <div class="mac-lid">
+          <div class="mac-camera"></div>
+          <div class="apple-wrap">
+            <img src="assets/apple_logo_black.svg" alt="Apple logo"/>
+          </div>
+        </div>
+        <div class="mac-base-bar"></div>
+      </div>
+
+      <!-- Face B – open MacBook -->
+      <div class="mac-face mac-open">
+        <div class="mac-screen">
+          <div class="screen-bar">
+            <span class="dot r"></span>
+            <span class="dot y"></span>
+            <span class="dot g"></span>
+          </div>
+          <div class="mac-msg" id="msgScroll">
+            <h2 class="bubble">Happy Birthday wania !!</h2>
+            <p>i hope this year is as kind as you've been to ppl around you.</p>
+            <p>you're truly a blessing in form of a friend, and i mean it.
+               thankyou for befriending me & then tolerating me for 2 years. sadly, you'll have to tolerate more :)</p>
+            
+            <p>a person so pure hearted like you deserves the world & more fr.  </p>
+            <p style="color:var(--pink)">and i deserve a birthday treat from you now. thankyou.  </p>
+          </div>
+        </div>
+        <div class="mac-hinge"></div>
+        <div class="mac-kbd">
+          <div class="key-row">
+            <div class="key"></div><div class="key"></div><div class="key"></div>
+            <div class="key"></div><div class="key"></div><div class="key"></div>
+            <div class="key"></div><div class="key"></div><div class="key"></div>
+            <div class="key"></div><div class="key"></div><div class="key"></div>
+          </div>
+          <div class="key-row">
+            <div class="key w2"></div><div class="key"></div><div class="key"></div>
+            <div class="key"></div><div class="key"></div><div class="key"></div>
+            <div class="key"></div><div class="key"></div><div class="key"></div>
+            <div class="key"></div><div class="key w2"></div>
+          </div>
+          <div class="key-row">
+            <div class="key w4"></div><div class="key"></div><div class="key"></div>
+            <div class="key"></div><div class="key"></div><div class="key"></div>
+            <div class="key"></div><div class="key w4"></div>
+          </div>
+          <div class="key-row">
+            <div class="key w2"></div>
+            <div class="key sp"></div>
+            <div class="key w2"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn ghost" onclick="gotoPage(1)">← back</button>
+    <button class="btn" onclick="gotoPage(3)">gallery →</button>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 3 – PHOTO GALLERY
+════════════════════════════════════════════════════ -->
+<section class="page" id="page3">
+<div class="shell gallery-wrap">
+
+  <h2 class="page-title bubble">me & u</h2>
+
+  <div class="lizard-zone">
+    <div class="lizard-label">press the lizard!</div>
+    <button class="lizard-btn" id="lizardBtn" onclick="lizardGo()" aria-label="Lizard sound">
+      <img src="assets/lizard.png" alt="lizard"/>
+    </button>
+    <p class="gallery-note">turn up the volume to 100% </p>
+  </div>
+
+  <div class="gallery-stage">
+    <div class="photo-card">
+      <div class="photo-slot">
+        <img src="assets/pic6.jpeg" alt="Gallery Photo 1">
+      </div>
+      <p class="photo-caption">macbook selfie :) </p>
+    </div>
+    <div class="photo-card">
+      <div class="photo-slot">
+        <img src="assets/wania looking into my phone.jpeg" alt="photo 2">
+      </div>
+      <p class="photo-caption">stop looking into my phone</p>
+    </div>
+    <div class="photo-card active">
+      <div class="photo-slot">
+        <img src="assets/me n wania.jpeg" alt="photo 3">
+      </div>
+      <p class="photo-caption">we so cute</p>
+    </div>
+    <div class="photo-card">
+      <div class="photo-slot">
+        <img src="assets/pic4.jpeg" alt="Gallery Photo 4">
+      </div>
+      <p class="photo-caption"> :) </p>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn ghost" onclick="gotoPage(2)">← macbook</button>
+    <button class="btn" onclick="gotoPage(4)">the end →</button>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 4 – GOODBYE
+════════════════════════════════════════════════════ -->
+<section class="page" id="page4">
+<div class="shell bye-page">
+
+  <h2 class="bye-title bubble">Bye bye! ♡</h2>
+
+  <!-- Cat sticker -->
+  <div class="cat-sticker-wrap">
+    <div class="cat-sticker-border">
+      <img class="cat-sticker" src="assets/cat.png" alt="birthday cat sticker"/>
+    </div>
+  </div>
+
+  <div class="card bye-msg">
+    <p>
+      You made it to the end — i hope the lizard sound is still buzzing in your head. 
+      well here is a cat image at top because idk you remind me of cats.  
+      happy birthday btw i hope you get all your prayers answered (halal ones) 🎉
+    </p>
+    <p>
+      chalo bas ab sojao eeepy eeepy goodnight..
+    </p>
+    <p style="color:var(--pink); margin-top:14px">
+      i myself have coded this line by line (lie) because i like u (true)
+    </p>
+  </div>
+
+  <p class="bye-tag">made with love - by your bestfriend fahima</p>
+
+  <div class="nav-row">
+    <button class="btn ghost" onclick="gotoPage(3)">← gallery</button>
+    <button class="btn" onclick="confettiBurst(90)">🎉 again!</button>
+  </div>
+
+</div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

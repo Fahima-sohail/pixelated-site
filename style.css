@@ -1,0 +1,754 @@
+/* ─────────────────────────────────────────────────────────────────
+   IMPORTS – pixel bubbly font
+───────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* ─────────────────────────────────────────────────────────────────
+   ROOT VARIABLES
+───────────────────────────────────────────────────────────────── */
+:root {
+    --cream:     #fff7fb;
+    --petal:     #ffd6e9;
+    --pink:      #e84cb8;
+    --cutepink:   #ff69b4;
+    --pink-dark: #9d1569;
+    --pink-pale: #fce4f3;
+    --gold:      #ffd56d;
+    --sage:      #9fbea5;
+    --sage-dark: #446b52;
+    --ink:       #3a1d2e;
+    --shadow:    rgba(100, 30, 70, 0.18);
+    --font:      'Press Start 2P', monospace;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   BASE
+───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    height: 100vh;
+    overflow-x: hidden;
+    font-family: var(--font);
+    font-size: 10px;
+    color: var(--ink);
+
+    /* layered soft gradient background */
+    background:
+        radial-gradient(circle at 18% 22%, rgba(255,192,220,0.35) 0%, transparent 48%),
+        radial-gradient(circle at 82% 75%, rgba(255,228,196,0.28) 0%, transparent 42%),
+        radial-gradient(circle at 50% 50%, rgba(240,220,255,0.18) 0%, transparent 65%),
+        linear-gradient(160deg, #fff9fc 0%, #ffe1ed 55%, #f5fff5 100%);
+
+    /* subtle grid overlay */
+    background-image:
+        radial-gradient(circle at 18% 22%, rgba(255,192,220,0.35) 0%, transparent 48%),
+        radial-gradient(circle at 82% 75%, rgba(255,228,196,0.28) 0%, transparent 42%),
+        linear-gradient(rgba(255,255,255,0.55) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.55) 1px, transparent 1px),
+        linear-gradient(160deg, #fff9fc 0%, #ffe1ed 55%, #f5fff5 100%);
+    background-size: auto, auto, 28px 28px, 28px 28px, auto;
+}
+
+button, input { font: inherit; }
+button { touch-action: manipulation; cursor: pointer; }
+img { display: block; }
+
+/* ─────────────────────────────────────────────────────────────────
+   TYPOGRAPHY HELPERS
+───────────────────────────────────────────────────────────────── */
+
+/* The signature bubbly title effect – pink with white outline */
+.bubble {
+    -webkit-text-stroke: 3.5px rgba(255,255,255,0.95);
+    paint-order: stroke fill;
+    text-shadow: 4px 4px 0 var(--pink-dark);
+}
+
+.page-title {
+    font-size: clamp(1.4rem, 4.5vw, 2.8rem);
+    color: var(--pink);
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.label {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PAGE SHELL
+───────────────────────────────────────────────────────────────── */
+.page {
+    position: relative;
+    z-index: 10;
+    display: none;
+    width: min(1040px, calc(100vw - 24px));
+    height: 100vh;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+.page.active {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    animation: pageIn 0.3s ease both;
+    overflow-y: auto
+}
+@keyframes pageIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Sparkle twinkling animation */
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+/* Cat gentle bounce animation */
+@keyframes catBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Cat blink animation */
+@keyframes catBlink {
+    0%, 49%, 51%, 100% { filter: brightness(1); }
+    50% { filter: brightness(0.7); }
+}
+
+.shell { width: 100%; }
+
+/* ─────────────────────────────────────────────────────────────────
+   CARD
+───────────────────────────────────────────────────────────────── */
+.card {
+    border: 4px solid var(--ink);
+    
+    background: rgba(255,247,251,0.96);
+    box-shadow: 6px 6px 0 var(--shadow), 10px 10px 0 rgba(68,107,82,0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────────────────────────────── */
+.btn {
+    min-height: 50px;
+    padding: 0 24px;
+    border: 4px solid var(--ink);
+    color: #fff;
+    background: var(--pink);
+    box-shadow: 5px 5px 0 var(--pink-dark);
+    font-weight: 900;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.btn:hover  { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--pink-dark); }
+.btn:active { transform: translate(3px, 3px);  box-shadow: 2px 2px 0 var(--pink-dark); }
+.btn.ghost  { color: var(--ink); background: var(--cream); box-shadow: 5px 5px 0 var(--shadow); }
+.btn.ghost:hover { box-shadow: 7px 7px 0 var(--shadow); }
+
+.nav-row {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PAGE 1 – WELCOME
+───────────────────────────────────────────────────────────────── */
+.p1-grid {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.8fr) minmax(300px, 1.2fr);
+    gap: clamp(28px, 5vw, 64px);
+    align-items: center;
+}
+
+/* Polaroid */
+.polaroid {
+    width: min(300px, 84vw);
+    margin: 0 auto;
+    padding: 12px 12px 36px;
+    border: 4px solid var(--ink);
+    background: var(--cream);
+    box-shadow: 10px 10px 0 var(--shadow);
+    transform: rotate(-2.5deg);
+}
+.polaroid::before {
+    content: 'LVL 26';
+    display: block;
+    width: max-content;
+    margin: -30px auto 12px;
+    padding: 5px 12px;
+    border: 3px solid var(--ink);
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 0.55rem;
+}
+
+.polaroid-slot {
+    width: 100%; aspect-ratio: 1;
+    border: 4px solid var(--ink);
+    background: linear-gradient(135deg, #ffb3d1 0%, #ffc9e3 40%, #d8b4fe 100%);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+}
+.polaroid-slot img { width: 100%; height: 100%; object-fit: cover; }
+.polaroid-slot .ph {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 16px;
+    font-size: 0.5rem; color: rgba(100,30,70,0.45);
+    line-height: 1.8;
+}
+
+.polaroid-cap { margin-top: 14px; text-align: center; font-size: 0.5rem; color: var(--ink); text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* Cat-specific polaroid – no level label */
+.polaroid-cat::before {
+    display: none;
+}
+
+/* Cat animation */
+.cat-animate {
+    animation: catBounce 2.5s ease-in-out infinite;
+}
+
+/* Intro */
+.intro-head {
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--pink);
+    text-transform: uppercase;
+    line-height: 1.3;
+    margin-bottom: 16px;
+}
+.intro-sub {
+    font-size: 0.58rem;
+    color: var(--sage-dark);
+    line-height: 2;
+    max-width: 34rem;
+    margin-bottom: 28px;
+}
+
+/* Sparkle animation for title */
+.sparkle {
+    display: inline-block;
+    margin: 0 8px;
+    font-family: Georgia, serif;
+    font-size: 1.1em;
+    color: var(--pink);
+    font-weight: bold;
+    animation: twinkle 2.5s ease-in-out infinite;
+    letter-spacing: 0.05em;
+}
+.sparkle:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* Passcode box */
+.pass-box {
+    position: relative;
+    padding: 22px;
+    margin-top: 4px;
+    width: min(430px, 100%);
+}
+.pass-box::before {
+    content: 'SECRET CODE';
+    position: absolute; left: 14px; top: -16px;
+    padding: 5px 10px;
+    border: 3px solid var(--ink);
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 0.5rem;
+}
+.pass-hint { font-size: 0.52rem; color: var(--ink); margin-bottom: 14px; line-height: 1.8; }
+.pass-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.pass-input {
+    min-width: 0; min-height: 50px;
+    padding: 10px 14px;
+    border: 4px solid var(--ink);
+    color: var(--ink); background: #fff;
+    box-shadow: inset 3px 3px 0 #f3c7d9;
+    font-size: 0.7rem;
+    text-align: center; letter-spacing: 0.18em;
+}
+.pass-input:focus { outline: none; box-shadow: inset 3px 3px 0 #f3c7d9, 0 0 0 4px var(--sage); }
+.pass-err { display: none; margin-top: 12px; font-size: 0.52rem; color: var(--pink); line-height: 1.8; }
+
+/* ─────────────────────────────────────────────────────────────────
+   PAGE 2 – MACBOOK
+───────────────────────────────────────────────────────────────── */
+.mac-page { display: grid; justify-items: center; gap: 14px; text-align: center; }
+
+.flip-head {
+    font-size: clamp(0.9rem, 2.8vw, 1.5rem);
+    color: var(--pink);
+    text-transform: uppercase;
+    line-height: 1.6;
+}
+.flip-sub { font-size: 0.5rem; color: var(--sage-dark); text-transform: uppercase; letter-spacing: 0.12em; }
+
+/* 3-D flip stage */
+.mac-stage {
+    perspective: 1800px;
+    width: min(540px, 90vw);
+    height: 380px;
+    margin: 0 auto;
+}
+.mac-flipper {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    /* smooth cubic-bezier flip */
+    transition: transform 1.2s cubic-bezier(0.42, 0, 0.18, 1);
+    cursor: pointer;
+}
+.mac-flipper.flipped { transform: rotateY(180deg); }
+
+.mac-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    /* Add these to center the contents */
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+/* ══ Face A – BACK OF CLOSED MacBook (premium aluminium CSS) ══ */
+.mac-closed {
+    /* Change these lines to center the logo perfectly */
+    position: absolute;
+    inset: 0;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.mac-lid {
+    width: 91%;
+    flex: 0 0 77%;
+    border-radius: 18px 18px 4px 4px;
+    position: relative;
+    overflow: hidden;
+
+    /* ── Aluminium finish – layered gradients ── */
+    background:
+        /* specular top shine */
+        radial-gradient(ellipse 70% 28% at 50% 0%,
+            rgba(255,255,255,0.72) 0%,
+            rgba(255,255,255,0.2)  45%,
+            transparent 100%),
+        /* left-edge catch light */
+        linear-gradient(to right,
+            rgba(255,255,255,0.32) 0%,
+            transparent 14%),
+        /* brushed-aluminium gradient */
+        linear-gradient(178deg,
+            #f4f4f4 0%,
+            #e6e6e6 18%,
+            #d8d8d8 35%,
+            #cccccc 52%,
+            #c0c0c0 68%,
+            #b4b4b4 82%,
+            #bcbcbc 100%);
+
+    box-shadow:
+        /* inset top highlight */
+        inset 0 1px 2px rgba(255,255,255,0.9),
+        /* inset bottom shadow */
+        inset 0 -1px 2px rgba(0,0,0,0.12),
+        /* outer depth */
+        0 24px 64px rgba(0,0,0,0.32),
+        0 8px 24px rgba(0,0,0,0.18),
+        0 3px 8px  rgba(0,0,0,0.12);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Horizontal brushed-metal micro-lines */
+.mac-lid::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        rgba(255,255,255,0.04) 1px,
+        transparent 2px
+    );
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Bottom edge chamfer line */
+.mac-lid::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 4%; right: 4%;
+    height: 3px;
+    background: rgba(0,0,0,0.18);
+    border-radius: 0 0 2px 2px;
+}
+
+/* Apple logo – screen blend so black bg vanishes, white logo glows */
+.apple-wrap {
+    position: relative; z-index: 2;
+    width: 78px; height: 93px;
+    mix-blend-mode: screen;
+}
+.apple-wrap img {
+    width: 80%; height: 75%;
+    object-fit: contain;
+    filter:
+        brightness(3.5)
+        drop-shadow(0 0 10px rgba(255,255,255,0.9))
+        drop-shadow(0 0 24px rgba(255,255,255,0.5))
+        drop-shadow(0 0 40px rgba(200,200,200,0.25));
+    opacity: 0.60;
+    background: transparent
+}
+
+/* Camera dot */
+.mac-camera {
+    position: absolute;
+    top: 10px; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #888, #555);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+    z-index: 3;
+}
+
+/* Base / foot */
+.mac-base-bar {
+    width: 95%;
+    height: 26px;
+    border-radius: 0 0 6px 6px;
+    background: linear-gradient(180deg, #dedede 0%, #c0c0c0 100%);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.5);
+    position: relative;
+}
+.mac-base-bar::before {
+    content: '';
+    position: absolute;
+    left: 42%; right: 42%; top: 0;
+    height: 10px;
+    background: linear-gradient(180deg, #aaa, #c4c4c4);
+    border-radius: 0 0 4px 4px;
+}
+
+/* ══ Face B – OPEN MacBook ══ */
+.mac-open {
+    transform: rotateY(180deg);
+    display: flex; flex-direction: column; align-items: center;
+    height: 100%
+}
+
+.mac-screen {
+    width: 84%; flex: 63%;
+    border: 5px solid #1a1a1a;
+    border-bottom: 2px solid #111;
+    border-radius: 12px 12px 0 0;
+    background: #fff;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.1);
+    height: 100%
+}
+
+.screen-bar {
+    background: linear-gradient(180deg, #3c3c3c 0%, #1c1c1c 100%);
+    height: 26px; flex-shrink: 0;
+    display: flex; align-items: center;
+    padding: 0 12px; gap: 7px;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f56; box-shadow: 0 0 0 1px rgba(0,0,0,0.18); }
+.dot.y { background: #ffbd2e; box-shadow: 0 0 0 1px rgba(0,0,0,0.18); }
+.dot.g { background: #27c93f; box-shadow: 0 0 0 1px rgba(0,0,0,0.18); }
+
+/* Message – NO horizontal lines */
+.mac-msg {
+    flex: 1; overflow-y: auto;
+    padding: 14px 16px;
+    background: #ffffff;
+    text-align: left;
+    line-height: 2;
+    font-size: 0.5rem;
+    color: var(--ink);
+}
+.mac-msg h2 {
+    font-size: 0.65rem; margin-bottom: 10px;
+    color: var(--pink); text-transform: uppercase; line-height: 1.8;
+}
+.mac-msg h2.bubble {
+    -webkit-text-stroke: 2px rgba(255,255,255,0.9);
+    paint-order: stroke fill;
+    text-shadow: 2px 2px 0 var(--pink-dark);
+}
+.mac-msg p + p { margin-top: 10px; }
+.mac-msg::-webkit-scrollbar { width: 5px; }
+.mac-msg::-webkit-scrollbar-track { background: #fce4f3; }
+.mac-msg::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 0; }
+
+.mac-hinge {
+    width: 88%; height: 9px;
+    background: linear-gradient(180deg, #111 0%, #2a2a2a 50%, #111 100%);
+    border-left: 4px solid #111; border-right: 4px solid #111;
+}
+
+.mac-kbd {
+    width: 92%; flex: 0 0 26%;
+    border: 5px solid #1a1a1a;
+    border-top: 2px solid #2c2c2c;
+    border-radius: 0 0 10px 10px;
+    background: linear-gradient(180deg, #d8d8d8 0%, #b8b8b8 100%);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
+    justify-content: center; gap: 5px;
+    padding: 8px 18px;
+}
+.key-row { display: flex; gap: 3px; justify-content: center; }
+.key {
+    height: 9px; flex: 1; max-width: 20px;
+    border: 1.5px solid #9e9e9e;
+    background: linear-gradient(180deg, #ebebeb 0%, #d5d5d5 100%);
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.key.w2 { max-width: 38px; }
+.key.w4 { max-width: 72px; }
+.key.sp { max-width: 140px; }
+
+/* ─────────────────────────────────────────────────────────────────
+   PAGE 3 – GALLERY
+───────────────────────────────────────────────────────────────── */
+.gallery-wrap { display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 8px; 
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+padding-top: 40px;
+padding-bottom: 40px;
+ }
+
+/* Lizard zone */
+.lizard-zone {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 6px;
+    margin-bottom: 2px;
+    z-index: 20; /* Ensure it stays clickable and visible */
+}
+.lizard-label {
+    font-size: 0.5rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    background: var(--gold);
+    padding: 4px 12px;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.lizard-btn {
+    display: grid; 
+    place-items: center;
+    width: min(80px, 11vw);   /* Scaled down from 120px to save space */
+    height: min(80px, 11vw);  /* Scaled down from 120px to save space */
+    border: 4px solid var(--ink);
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #1a3d1c, #0a1f0c);
+    box-shadow:
+        0 4px 12px rgba(10,50,14,0.4),
+        0 6px 15px var(--shadow);
+    overflow: hidden;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.lizard-btn:hover  { transform: translate(-2px,-2px) scale(1.04); box-shadow: 0 10px 30px rgba(10,50,14,0.5), 0 14px 40px var(--shadow); }
+.lizard-btn:active { transform: translate(2px, 2px)  scale(0.97); }
+.lizard-btn img { width: 82%; height: 82%; object-fit: contain; background: transparent }
+
+.lizard-btn.hop { animation: lizHop 0.58s ease; }
+@keyframes lizHop {
+    0%   { transform: translateY(0) scale(1) rotate(0deg); }
+    28%  { transform: translateY(-18px) scale(1.12) rotate(-5deg); }
+    65%  { transform: translateY(5px) scale(0.96) rotate(4deg); }
+    100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+.gallery-note { font-size: 0.45rem; color: var(--sage-dark); text-transform: uppercase; letter-spacing: 0.1em; text-align: center; line-height: 1.8; }
+
+/* Photo cards */
+.gallery-stage {
+    position: relative;
+    width: min(840px, 100%); height: 280px;
+    margin: 0 auto;
+}
+.photo-card {
+    position: absolute; 
+    left: 50%; 
+    top: 50%;                 /* Centered completely */
+    width: clamp(110px, 15vw, 150px); /* Scaled down from 210px */
+    aspect-ratio: 0.78;
+    padding: 8px 8px 32px;    /* Tighter padding */
+    border: 3px solid var(--ink);
+    background: white;
+    box-shadow: 5px 5px 0 var(--shadow);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.01s 0.18s;
+}
+.photo-card:nth-child(1) { transform: translate(-150%, -50%) rotate(-8deg); z-index: 1; }
+.photo-card:nth-child(2) { transform: translate(-85%,  -55%) rotate(4deg);  z-index: 2; }
+.photo-card:nth-child(3) { transform: translate(-15%,  -45%) rotate(-3deg); z-index: 3; }
+.photo-card:nth-child(4) { transform: translate(55%,   -55%) rotate(8deg); z-index: 4; }
+.photo-card.active { z-index: 6; transform: translate(-50%, -50%) rotate(0deg) scale(1.15); }
+
+.photo-slot {
+    width: 100%; height: 100%;
+    border: 4px solid #fff; outline: 3px solid #f29bc0;
+    background: linear-gradient(180deg,
+        #f4499a 0 18%, #ff8fc3 18% 42%, #ffc8dc 42% 62%,
+        #f9f2d5 62% 72%, #a995dd 72% 100%);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+}
+.photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+.photo-slot .slot-ph {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.45rem; color: rgba(100,30,70,0.4); text-align: center; padding: 8px;
+    line-height: 1.8; text-transform: uppercase;
+}
+.photo-caption {
+    position: absolute; left: 0; right: 0; bottom: 12px;
+    color: #d9638c; font-size: 0.5rem; text-align: center;
+    text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PAGE 4 – GOODBYE
+───────────────────────────────────────────────────────────────── */
+.bye-page { display: grid; justify-items: center; gap: 16px; text-align: center; padding: 10px 0; }
+
+.bye-title {
+    font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+    color: var(--pink);
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+/* Sticker effect – like a real cute sticker */
+.cat-sticker-wrap {
+    position: relative;
+    display: inline-block;
+    transform: rotate(-2deg);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    filter:
+        drop-shadow(0 0  0px pink)
+        drop-shadow(0 0  8px pink)
+        drop-shadow(0 0 16px  white)
+        drop-shadow(0 8px 28px rgba(0,0,0,0.15));
+    cursor: default;
+}
+.cat-sticker-wrap:hover { transform: rotate(0deg) scale(1.04); }
+
+.cat-sticker {
+   width: min(140px, 25vw);  /* Scaled down from 220px to fit viewports */
+    height: min(140px, 25vw);
+    object-fit: contain;
+    image-rendering: pixelated;
+    display: block;
+}
+
+/* White border sticker outline via layered box-shadows on a wrapper div */
+.cat-sticker-border {
+    display: inline-block;
+    padding: 6px;
+    background: rgb(147, 191, 198);
+    border-radius: 20px;
+    box-shadow:
+        0 0 0 4px rgba(248, 224, 224, 0.9),
+        0 0 0 6px  rgb(147, 191, 198),
+        0 0 0 10px rgba(253, 220, 232, 0.85),
+        0 8px 32px rgba(0,0,0,0.18);
+}
+
+.bye-msg {
+    max-width: 380px;
+    padding: 10px 16px;
+    font-size: 0.52rem;
+    line-height: 2;
+    color: var(--ink);
+}
+.bye-msg p + p { margin-top: 8px; }
+
+.bye-tag { font-size: 0.42rem; color: var(--pink); opacity: 0.65; text-transform: uppercase; letter-spacing: 0.12em; }
+
+/* ─────────────────────────────────────────────────────────────────
+   CONFETTI
+───────────────────────────────────────────────────────────────── */
+.confetti-piece {
+    position: fixed; top: -14px; z-index: 9999;
+    pointer-events: none;
+    animation: confFall linear forwards;
+}
+@keyframes confFall {
+    to { opacity: 0; transform: translate3d(var(--dx), 108vh, 0) rotate(820deg); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+    .p1-grid { grid-template-columns: 1fr; gap: 28px; text-align: center; }
+    .pass-row { grid-template-columns: 1fr; }
+    .pass-box { margin-inline: auto; }
+    .mac-stage { height: 360px; }
+    .mac-screen { flex: 0 0 58%; }
+    .gallery-stage { height: 530px; overflow: hidden; }
+    .photo-card { width: 180px; }
+    .photo-card:nth-child(1) { transform: translate(-104%, -82%) rotate(-9deg); }
+    .photo-card:nth-child(2) { transform: translate(-17%,  -88%) rotate(7deg); }
+    .photo-card:nth-child(3) { transform: translate(-104%, -6%)  rotate(5deg); }
+    .photo-card:nth-child(4) { transform: translate(-14%,  -2%)  rotate(-8deg); }
+    .photo-card.active { transform: translate(-50%, -46%) rotate(0) scale(1.06); }
+    .cat-sticker { width: 180px; height: 180px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+    }
+}
+/* Make scrollbar track match your aesthetic */
+.page.active::-webkit-scrollbar {
+    width: 6px;
+}
+.page.active::-webkit-scrollbar-track {
+    background: transparent; /* Seamless blend */
+}
+.page.active::-webkit-scrollbar-thumb {
+    background: var(--petal); /* Soft pink scrollbar */
+    border-radius: 10px;
+}
+.page.active::-webkit-scrollbar-thumb:hover {
+    background: var(--pink); /* Brightens when hovered */
+}
